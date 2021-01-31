@@ -63,7 +63,6 @@ def signout(request, id):
 class userViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {"create" : {AllowAny}}
 
-    queryset = resto_user.objects.all().order_by('id')
     serializer_class = resto_user_serailazer
 
     def get_permissions(self):
@@ -71,4 +70,15 @@ class userViewSet(viewsets.ModelViewSet):
             return [permission() for permission in self.permission_classes_by_action[self.action]]
         except KeyError:
             return [permission() for permission in self.permission_classes]
+    
+    def get_queryset(self):
+        queryset = resto_user.objects.all().order_by('id')
+        email = request.query_params.get('email',None)
+        phone = request.query_params.get('phone',None)
+        if email is not None:
+            queryset = resto_user.objects.filter(email=email)
+        if phone is not None:
+            queryset = resto_user.objects.filter(phone=phone)
+        return queryset
+
 
