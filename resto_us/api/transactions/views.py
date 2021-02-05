@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import transactionSerializer,transactionsListSerializer
-from .models import transaction
+from .models import transaction,UserDealSubscription
+from api.restraunt.models import restraunt,restraunt_standards
+from django.http import JsonResponse
 
 class transactionViewSet(viewsets.ModelViewSet):
     queryset = transaction.objects.all()
@@ -19,3 +21,22 @@ class transactionsListViewSet(viewsets.ModelViewSet):
         if user_id is not None:
             queryset = transaction.objects.filter(users_id=user_id)
         return queryset
+
+def activateDeal(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error":"Not Logged In"})
+    if not request.method == 'POST':
+        return JsonResponse({"error":"Method "+request.method + " Not allowed."})
+    code = request.POST["code"]
+    deal_id = request.POST["deal_id"]
+    try:
+        deal = restraunt_standards.objects.get(id=deal_id)
+        resto = restraunt.objects.get(id=deal.restraunt_id)
+        if resto.rest_code == code:
+            UserDealSubscription.objects.create(users_id=request.user,subscription=deal)
+            return JsonResponse({"success":"Deal Subscription Activated"})
+        else:
+            return JsonResponse({"error": "Invalid Restraunt Code."})
+    except restraunt_standards.DoesNotExist:
+        return JsonResponse({"error":"Invalid Deal ID"})
+

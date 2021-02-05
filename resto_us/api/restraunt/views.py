@@ -9,6 +9,12 @@ class restrauntViewSet(viewsets.ModelViewSet):
 
 class restraunt_standardsViewSet(viewsets.ModelViewSet):
     serializer_class = restraunt_standardsSerializer
-    queryset = restraunt_standards.objects.all()
+
+    def get_queryset(self):
+        queryset = restraunt_standards.objects.all()
+        rest_id = self.request.query_params.get('restraunt',None)
+        if rest_id is not None:
+            queryset = restraunt_standards.objects.filter(restraunt_id=rest_id)
+        return queryset
 
 

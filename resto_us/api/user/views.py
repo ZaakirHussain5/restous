@@ -73,8 +73,8 @@ class userViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = resto_user.objects.all().order_by('id')
-        email = request.query_params.get('email',None)
-        phone = request.query_params.get('phone',None)
+        email = self.request.query_params.get('email',None)
+        phone = self.request.query_params.get('phone',None)
         if email is not None:
             queryset = resto_user.objects.filter(email=email)
         if phone is not None:

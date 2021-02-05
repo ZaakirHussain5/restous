@@ -1,6 +1,6 @@
 from django.db import models
 from api.user.models import resto_user
-from api.restraunt.models import restraunt
+from api.restraunt.models import restraunt,restraunt_standards
 
 def generate_trans_id():
     from django.db.models import Max
@@ -19,3 +19,11 @@ class transaction(models.Model):
     description = models.TextField(null=True,blank=True)
     trans_amt = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
     trans_date = models.DateTimeField(auto_now_add=True)
+
+class UserDealSubscription(models.Model):
+    users_id = models.ForeignKey(resto_user,on_delete=models.CASCADE)
+    subscription = models.ForeignKey(restraunt_standards,on_delete=models.CASCADE)
+    is_expired = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
