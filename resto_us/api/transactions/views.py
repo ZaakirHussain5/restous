@@ -4,6 +4,7 @@ from .serializers import transactionSerializer,transactionsListSerializer
 from .models import transaction,UserDealSubscription
 from api.restraunt.models import restraunt,restraunt_standards
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 class transactionViewSet(viewsets.ModelViewSet):
     queryset = transaction.objects.all()
@@ -22,6 +23,7 @@ class transactionsListViewSet(viewsets.ModelViewSet):
             queryset = transaction.objects.filter(users_id=user_id)
         return queryset
 
+@csrf_exempt
 def activateDeal(request):
     if not request.user.is_authenticated:
         return JsonResponse({"error":"Not Logged In"})
