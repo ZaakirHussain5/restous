@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from .serializers import transactionSerializer,transactionsListSerializer
+from rest_framework import viewsets,generics
+from .serializers import transactionSerializer,transactionsListSerializer,DealSubscriptionSerializer
 from .models import transaction,UserDealSubscription
 from api.restraunt.models import restraunt,restraunt_standards
 from django.http import JsonResponse
@@ -23,6 +23,14 @@ class transactionsListViewSet(viewsets.ModelViewSet):
             queryset = transaction.objects.filter(users_id=user_id)
         return queryset
 
+class userDealAPI(generics.RetrieveAPIView):
+    serializer_class = DealSubscriptionSerializer
+
+    def get_object(self):
+        userId = self.request.query_params('id',None)
+        return UserDealSubscription.objects.get(users_id=userId)
+
+
 @csrf_exempt
 def activateDeal(request):
     if not request.user.is_authenticated:
@@ -35,7 +43,7 @@ def activateDeal(request):
         deal = restraunt_standards.objects.get(id=deal_id)
         resto = restraunt.objects.get(id=deal.restraunt_id)
         if resto.rest_code == code:
-            UserDealSubscription.objects.create(users_id=request.user,subscription=deal)
+            UserDealSubscription.objects.create(users_id=request.user,subscription=deal,meals_remaining=deal.no_of_meals)
             return JsonResponse({"success":"Deal Subscription Activated"})
         else:
             return JsonResponse({"error": "Invalid Restraunt Code."})

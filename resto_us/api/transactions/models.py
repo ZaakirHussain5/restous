@@ -18,11 +18,13 @@ class transaction(models.Model):
     restraunt_id = models.ForeignKey(restraunt,on_delete=models.CASCADE)
     description = models.TextField(null=True,blank=True)
     trans_amt = models.DecimalField(max_digits=10,decimal_places=2,default=0.00)
-    trans_date = models.DateTimeField(auto_now_add=True)
+    trans_date = models.DateTimeField(auto_now_add=True) 
 
 class UserDealSubscription(models.Model):
     users_id = models.ForeignKey(resto_user,on_delete=models.CASCADE)
     subscription = models.ForeignKey(restraunt_standards,on_delete=models.CASCADE)
+    meals_had = models.PositiveIntegerField(default=0)
+    meals_remaining = models.PositiveIntegerField(default=0)
     is_expired = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
