@@ -41,7 +41,7 @@ def activateDeal(request):
     deal_id = request.POST["deal_id"]
     try:
         deal = restraunt_standards.objects.get(id=deal_id)
-        resto = restraunt.objects.get(id=deal.restraunt_id)
+        resto = restraunt.objects.get(id=deal.restraunt_id.id)
         if resto.rest_code == code:
             UserDealSubscription.objects.create(users_id=request.user,subscription=deal,meals_remaining=deal.no_of_meals)
             return JsonResponse({"success":"Deal Subscription Activated"})
