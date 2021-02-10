@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'api',
     'api.user',
     'api.restraunt',
-    'api.transactions'
+    'api.transactions',
+    'UI'
 ]
 
 MIDDLEWARE = [

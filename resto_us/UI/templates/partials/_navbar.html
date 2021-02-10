@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger ">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+          Resto Dashboard<br>
+        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ml-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %} active {% endif %}" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/Restraunts' %} active {% endif %}" href="/Restraunts">Restraunts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/Managers' %} active {% endif %}" href="/Managers">Managers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/Transactions' %} active {% endif %}" href="/Transactions">Transactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/Users' %} active {% endif %}" href="/Users">Users</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Welcome {{user.username}}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/signOut">Logout</a>
+              </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

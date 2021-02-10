@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5 id="title">Managers</h5>
+        </div>
+        <ul class="nav nav-pills sr-only" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#list" role="tab"
+                    aria-controls="pills-home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#form" role="tab"
+                    aria-controls="pills-profile" aria-selected="false">Profile</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="pills-home-tab">
+                
+                <div class="card-body">
+                    <div class="form-group">
+                        <button class="btn btn-danger btn-sm" id="newCustomer">
+                            <i class="fa fa-plus-circle"></i> Add New Manager
+                        </button>
+                    </div>
+                    <table class="table table-hover table-striped table-sm" id="Customers">
+                        <thead>
+                            <tr class="bg-danger text-light">
+                                <th>Slno</th>
+                                <th>Restraunt</th>
+                                <th>Manager Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>McDonalds</td>
+                                <td>Aqib</td>
+                                <td>aqib@gmail.com</td>
+                                <td>9988554477</td>
+                                <td>
+                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>KFC</td>
+                                <td>Samir</td>
+                                <td>samir@gmail.com</td>
+                                <td>9981154477</td>
+                                <td>
+                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Krstal Park Inn</td>
+                                <td>sammy</td>
+                                <td>samm@gmail.com</td>
+                                <td>9999554477</td>
+                                <td>
+                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Subway</td>
+                                <td>saqib</td>
+                                <td>saqib@gmail.com</td>
+                                <td>9988444477</td>
+                                <td>
+                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="card-body">
+                    <form id="customerForm">
+                        <div class="row">
+                            <div class="offset-md-3 col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="id" id="cus_id">
+                                        <input type="hidden" name="partType" value="S">
+                                        <div class="from-group">
+                                            <label for="name">Restraunt</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter Supplier Name">
+                                        </div>
+                                        <div class="from-group">
+                                            <label for="email">Manager Name</label>
+                                            <input type="text" class="form-control" name="email" id="email" placeholder="Enter Supplier Email">
+                                        </div>
+                                        <div class="from-group">
+                                            <label for="phoneNumber">Phone Number</label>
+                                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                        </div>
+                                        <div class="from-group">
+                                            <label for="phoneNumber">Email</label>
+                                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                        </div>
+                                        <div class="from-group">
+                                            <label for="phoneNumber">Password</label>
+                                            <input type="password" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <button class="btn btn-danger" id="submitBtn">
+                                        Add Manager
+                                    </button>
+                                    <button class="btn btn-secondary" type="reset">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-danger btn-sm float-right" id="listCustomer">
+                        <i class="fa fa-tasks"></i> Managers List
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+
+<script>
+    $(document).ready(function(){
+        $('#newCustomer').click(function(){
+          $('#myTab a[href="#form"]').tab('show')
+        })
+        
+        $('#listCustomer').click(function(){
+          $('#myTab a[href="#list"]').tab('show')
+        })
+
+        var table = $('#Customers').DataTable()
+            /* ajax:{
+                url:'/api/pos/suppliers/',
+                dataSrc:''
+            },
+            columns:[
+                {
+                    data:'id',
+                    "className":"align-middle"
+                },{
+                    data:'name',
+                    "className":"align-middle"
+                },{
+                    data:'email',
+                    "className":"align-middle"
+                },{
+                    data:'phoneNumber',
+                    "className":"align-middle"
+                },{
+                    data:'id',
+                    render:function(data,type,row){
+                        return `<button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>`
+                    }
+                }
+            ]
+        }) */
+
+        crudOperations({
+              url:'/api/pos/suppliers/',
+              put_url: '/api/pos/customers/',
+              table_id:'#Customers',
+              id_selector:'#cus_id',
+              form_id:'#customerForm',
+              table:table,
+              entity:'Customer',
+              tabs:true,
+        })
+    })
+</script>
+
+{% endblock %}
