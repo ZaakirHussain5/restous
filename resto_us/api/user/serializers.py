@@ -1,10 +1,18 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import authentication_classes,permission_classes
+from api.restraunt.serializers import restrauntSerializer
 
 from .models import resto_user
 
-class resto_user_serailazer(serializers.HyperlinkedModelSerializer):
+class usersListSerializer(serializers.ModelSerializer):
+    restraunt_id = restrauntSerializer
+
+    class Meta:
+        model = resto_user
+        fields = '__all__'
+
+class resto_user_serailazer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password',None)
@@ -27,4 +35,4 @@ class resto_user_serailazer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = resto_user
         extra_kwargs = {'password':{'write_only':True}}
-        fields= ('id','name','email','password','phone','is_active','is_staff','is_superuser')
+        fields= ('id','name','email','password','phone','is_active','is_staff','is_superuser','restraunt_id')

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
-from .serializers import resto_user_serailazer
+from .serializers import resto_user_serailazer,usersListSerializer
 from .models import resto_user
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
@@ -75,6 +75,10 @@ class userViewSet(viewsets.ModelViewSet):
         queryset = resto_user.objects.all().order_by('id')
         email = self.request.query_params.get('email',None)
         phone = self.request.query_params.get('phone',None)
+        userType = self.request.query_params.get('userType',None)
+        self.serializer_class = usersListSerializer
+        if userType is not None :
+            queryset = resto_user.objects.filter(user_type=userType)
         if email is not None:
             queryset = resto_user.objects.filter(email=email)
         if phone is not None:

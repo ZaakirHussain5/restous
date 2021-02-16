@@ -24,7 +24,7 @@
                             <i class="fa fa-plus-circle"></i> Add New Manager
                         </button>
                     </div>
-                    <table class="table table-hover table-striped table-sm" id="Customers">
+                    <table class="table table-hover table-striped table-sm" id="Managers">
                         <thead>
                             <tr class="bg-danger text-light">
                                 <th>Slno</th>
@@ -35,68 +35,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>McDonalds</td>
-                                <td>Aqib</td>
-                                <td>aqib@gmail.com</td>
-                                <td>9988554477</td>
-                                <td>
-                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>KFC</td>
-                                <td>Samir</td>
-                                <td>samir@gmail.com</td>
-                                <td>9981154477</td>
-                                <td>
-                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Krstal Park Inn</td>
-                                <td>sammy</td>
-                                <td>samm@gmail.com</td>
-                                <td>9999554477</td>
-                                <td>
-                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Subway</td>
-                                <td>saqib</td>
-                                <td>saqib@gmail.com</td>
-                                <td>9988444477</td>
-                                <td>
-                                    <button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -110,24 +49,30 @@
                                         <input type="hidden" name="id" id="cus_id">
                                         <input type="hidden" name="partType" value="S">
                                         <div class="from-group">
+                                            <input type="hidden" name="user_type" value="M">
                                             <label for="name">Restraunt</label>
-                                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter Supplier Name">
+                                            <select name="restraunt_id" id="restraunt_id" class="form-control">
+                                                <option value="">Select Restraunt</option>
+                                                {% for restraunt in restraunts%}
+                                                <option value="{{restraunt.id}}">{{restraunt.name}}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="from-group">
-                                            <label for="email">Manager Name</label>
-                                            <input type="text" class="form-control" name="email" id="email" placeholder="Enter Supplier Email">
-                                        </div>
-                                        <div class="from-group">
-                                            <label for="phoneNumber">Phone Number</label>
-                                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                            <label for="name">Manager Name</label>
+                                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter Full name" required>
                                         </div>
                                         <div class="from-group">
                                             <label for="phoneNumber">Email</label>
-                                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email Address" required>
+                                        </div>
+                                        <div class="from-group">
+                                            <label for="phoneNumber">Phone Number</label>
+                                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Phone Number" >
                                         </div>
                                         <div class="from-group">
                                             <label for="phoneNumber">Password</label>
-                                            <input type="password" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Enter Supplier Phone Number">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
                                         </div>
                                     
                                     </div>
@@ -167,26 +112,30 @@
           $('#myTab a[href="#list"]').tab('show')
         })
 
-        var table = $('#Customers').DataTable()
-            /* ajax:{
-                url:'/api/pos/suppliers/',
-                dataSrc:''
+        var table = $('#Managers').DataTable({
+            ajax:{
+                url:'/api/user/?userType=M',
+                dataSrc:""
             },
             columns:[
                 {
-                    data:'id',
-                    "className":"align-middle"
-                },{
-                    data:'name',
-                    "className":"align-middle"
-                },{
-                    data:'email',
-                    "className":"align-middle"
-                },{
-                    data:'phoneNumber',
-                    "className":"align-middle"
-                },{
-                    data:'id',
+                    data:"id",
+                    className:"align-middle"
+                },
+                {
+                    data:"restraunt_id",
+                    className:"align-middle"
+                },
+                {
+                    data:"email",
+                    className:"align-middle"
+                },
+                {
+                    data:"phone",
+                    className:"align-middle"
+                },
+                {
+                    data:"id",
                     render:function(data,type,row){
                         return `<button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
                                     <i class="fa fa-edit"></i>
@@ -197,11 +146,12 @@
                     }
                 }
             ]
-        }) */
+        })
+           
 
         crudOperations({
-              url:'/api/pos/suppliers/',
-              put_url: '/api/pos/customers/',
+              url:'/api/user/',
+              put_url: '/api/user/',
               table_id:'#Customers',
               id_selector:'#cus_id',
               form_id:'#customerForm',

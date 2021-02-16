@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,get_user_model,logout
+from api.restraunt.models import restraunt
 
 def signIn(request):
     if request.method == 'POST':
@@ -20,7 +21,10 @@ def Restraunts(request):
     return render(request,'resto/restraunts.html')
 
 def Managers(request):
-    return render(request,'resto/managers.html')
+    restraunts = restraunt.objects.all()
+    return render(request,'resto/managers.html',{
+        "restraunts": restraunts
+    })
 
 def Transactions(request):
     return render(request,'resto/transactions.html')

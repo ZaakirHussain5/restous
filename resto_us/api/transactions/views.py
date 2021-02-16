@@ -28,8 +28,9 @@ class userDealAPI(generics.RetrieveAPIView):
     serializer_class = DealSubscriptionSerializer
 
     def get_object(self):
-        userId = self.request.query_params('id',None)
-        return UserDealSubscription.objects.get(users_id=userId)
+        userId = self.request.query_params.get('user',None)
+        restId = self.request.query_params.get('restraunt',None)
+        return UserDealSubscription.objects.get(users_id__id=userId,subscription__restraunt_id__id=restId)
 
 
 @csrf_exempt
@@ -43,6 +44,12 @@ def activateDeal(request):
         deal = restraunt_standards.objects.get(id=deal_id)
         resto = restraunt.objects.get(id=deal.restraunt_id.id)
         user = resto_user.objects.get(id=user_id)
+        try:
+            subsDeal = UserDealSubscription.objects.get(users_id=user)
+            if subsDeal.subscription.restraunt_id == resto and subsDeal.is_expired == False:
+                return JsonResponse({"error":"User has ongoing Subscription eith this restraunt"})
+        except UserDealSubscription.DoesNotExist:
+            pass
         if resto.rest_code == code:
             UserDealSubscription.objects.create(users_id=user,subscription=deal,meals_remaining=deal.no_of_meals)
             return JsonResponse({"success":"Deal Subscription Activated"})
