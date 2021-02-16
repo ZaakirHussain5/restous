@@ -41,13 +41,12 @@
             </div>
             <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="pills-home-tab">
                 <div class="card-body">
-                    <form id="customerForm">
+                    <form id="managerForm">
                         <div class="row">
                             <div class="offset-md-3 col-md-6">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="hidden" name="id" id="cus_id">
-                                        <input type="hidden" name="partType" value="S">
+                                        <input type="hidden" name="id" id="man_id">
                                         <div class="from-group">
                                             <input type="hidden" name="user_type" value="M">
                                             <label for="name">Restraunt</label>
@@ -114,7 +113,7 @@
 
         var table = $('#Managers').DataTable({
             ajax:{
-                url:'/api/user/?userType=M',
+                url:'/api/user/list/?userType=M',
                 dataSrc:""
             },
             columns:[
@@ -123,7 +122,11 @@
                     className:"align-middle"
                 },
                 {
-                    data:"restraunt_id",
+                    data:"restraunt_id.name",
+                    className:"align-middle"
+                },
+                {
+                    data:"name",
                     className:"align-middle"
                 },
                 {
@@ -150,13 +153,13 @@
            
 
         crudOperations({
-              url:'/api/user/',
-              put_url: '/api/user/',
-              table_id:'#Customers',
-              id_selector:'#cus_id',
-              form_id:'#customerForm',
+              url:'/api/user/add/',
+              put_url: '/api/user/add/',
+              table_id:'#Managers',
+              id_selector:'#man_id',
+              form_id:'#managerForm',
               table:table,
-              entity:'Customer',
+              entity:'Manager',
               tabs:true,
         })
     })

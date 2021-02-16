@@ -45,6 +45,41 @@ def signIn(request):
             return JsonResponse({"error":"Authentication Failed Check your username and Password"})
     except UserModel.DoesNotExist:
         return JsonResponse({"error":"Authentication Failed Check your username and Password"})
+    
+@csrf_exempt
+def adminSignIn(request):
+    if not request.method == 'POST':
+        return JsonResponse({"error","Send a Post Request with valid parameters"})
+    
+    username = request.POST['email']
+    password = request.POST['password']
+    
+    UserModel = get_user_model()
+
+    try:
+        user = UserModel.objects.get(email=username)
+
+        if not user.is_superuser:
+            return JsonResponse({"error":"Not an Admin"})
+
+        if user.check_password(password):
+            usr_dict = UserModel.objects.filter(email=username).values().first()
+            usr_dict.pop('password')
+
+            if user.session_token != "0":
+                user.session_token = "0"
+                user.save()
+                return JsonResponse({"error":"Previous Session Exists"})
+            
+            token = generate_session_token()
+            user.session_token = token
+            user.save()
+            login(request,user)
+            return JsonResponse({"token":token,"user":usr_dict})
+        else:
+            return JsonResponse({"error":"Authentication Failed Check your username and Password"})
+    except UserModel.DoesNotExist:
+        return JsonResponse({"error":"Authentication Failed Check your username and Password"})
 
 def signout(request, id):
     logout(request)
@@ -76,7 +111,6 @@ class userViewSet(viewsets.ModelViewSet):
         email = self.request.query_params.get('email',None)
         phone = self.request.query_params.get('phone',None)
         userType = self.request.query_params.get('userType',None)
-        self.serializer_class = usersListSerializer
         if userType is not None :
             queryset = resto_user.objects.filter(user_type=userType)
         if email is not None:
@@ -84,5 +118,23 @@ class userViewSet(viewsets.ModelViewSet):
         if phone is not None:
             queryset = resto_user.objects.filter(phone=phone)
         return queryset
+
+class userListViewSet(viewsets.ModelViewSet):
+    serializer_class = usersListSerializer
+
+    def get_queryset(self):
+        queryset = resto_user.objects.all().order_by('id')
+        email = self.request.query_params.get('email',None)
+        phone = self.request.query_params.get('phone',None)
+        userType = self.request.query_params.get('userType',None)
+        if userType is not None :
+            queryset = resto_user.objects.filter(user_type=userType)
+        if email is not None:
+            queryset = resto_user.objects.filter(email=email)
+        if phone is not None:
+            queryset = resto_user.objects.filter(phone=phone)
+        return queryset
+
+
 
 

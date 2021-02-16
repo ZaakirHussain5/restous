@@ -18,10 +18,13 @@ class transactionsListViewSet(viewsets.ModelViewSet):
         queryset = transaction.objects.all()
         rest_id = self.request.query_params.get('restraunt_id',None)
         user_id = self.request.query_params.get('user_id',None)
+        recent = self.request.query_params.get('recent',None)
         if rest_id is not None:
             queryset = transaction.objects.filter(restraunt_id=res_id)
         if user_id is not None:
             queryset = transaction.objects.filter(users_id=user_id)
+        if recent is not None:
+            queryset = transaction.objects.all().order_by('-trans_date')[:10]
         return queryset
 
 class userDealAPI(generics.RetrieveAPIView):

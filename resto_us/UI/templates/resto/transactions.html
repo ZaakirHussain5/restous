@@ -31,38 +31,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Krstall Park Inn</td>
-                                <td>Mack</td>
-                                <td>Sunday Meals</td>
-                                <td>$150</td>
-                                <td>21/01/2021</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Subway</td>
-                                <td>Zack</td>
-                                <td>Wednesday Meals</td>
-                                <td>$350</td>
-                                <td>21/01/2021</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>KFC</td>
-                                <td>Sam</td>
-                                <td>Friday meals</td>
-                                <td>$250</td>
-                                <td>21/01/2021</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>McDonalds</td>
-                                <td>Dash</td>
-                                <td>Large Combo</td>
-                                <td>$750</td>
-                                <td>21/01/2021</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -130,47 +98,31 @@
           $('#myTab a[href="#list"]').tab('show')
         })
 
-        var table = $('#transactions').DataTable()
-            /* ajax:{
-                url:'/api/pos/suppliers/',
-                dataSrc:''
+        $('#transactions').DataTable({
+            ajax:{
+                url:"/api/transactions/list/?recent=true",
+                dataSrc:""
             },
             columns:[
                 {
-                    data:'id',
-                    "className":"align-middle"
-                },{
-                    data:'name',
-                    "className":"align-middle"
-                },{
-                    data:'email',
-                    "className":"align-middle"
-                },{
-                    data:'phoneNumber',
-                    "className":"align-middle"
-                },{
-                    data:'id',
-                    render:function(data,type,row){
-                        return `<button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>`
-                    }
+                    data:"id"
+                },
+                {
+                    data:"restraunt_id.name"
+                },
+                {
+                    data:"users_id.name"
+                },
+                {
+                    data:"description"
+                },
+                {
+                    data:"trans_amt"
+                },
+                {
+                    data:"trans_date"
                 }
             ]
-        }) */
-
-        crudOperations({
-              url:'/api/pos/suppliers/',
-              put_url: '/api/pos/customers/',
-              table_id:'#Customers',
-              id_selector:'#cus_id',
-              form_id:'#customerForm',
-              table:table,
-              entity:'Customer',
-              tabs:true,
         })
     })
 </script>

@@ -2,15 +2,21 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import authentication_classes,permission_classes
 from api.restraunt.serializers import restrauntSerializer
+from api.transactions.models import transaction
 
 from .models import resto_user
 
 class usersListSerializer(serializers.ModelSerializer):
-    restraunt_id = restrauntSerializer
+    restraunt_id = restrauntSerializer()
+    transactionCount = serializers.SerializerMethodField()
+
+    def get_transactionCount(self,obj):
+        return len(transaction.objects.filter(users_id=obj))
 
     class Meta:
         model = resto_user
-        fields = '__all__'
+        fields= ('id','name','email','password','phone','is_active','is_staff','is_superuser','restraunt_id',"user_type",'transactionCount','created_at')
+
 
 class resto_user_serailazer(serializers.ModelSerializer):
 
@@ -35,4 +41,4 @@ class resto_user_serailazer(serializers.ModelSerializer):
     class Meta:
         model = resto_user
         extra_kwargs = {'password':{'write_only':True}}
-        fields= ('id','name','email','password','phone','is_active','is_staff','is_superuser','restraunt_id')
+        fields= ('id','name','email','password','phone','is_active','is_staff','is_superuser','restraunt_id',"user_type")

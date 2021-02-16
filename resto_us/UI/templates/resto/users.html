@@ -19,7 +19,7 @@
             <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="pills-home-tab">
                 
                 <div class="card-body">
-                    <table class="table table-bordered table-sm" id="transactions">
+                    <table class="table table-bordered table-sm" id="users">
                         <thead>
                             <tr class="bg-danger text-light">
                                 <th>Slno</th>
@@ -31,38 +31,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Sam</td>
-                                <td>sam@gmail.com</td>
-                                <td>+4445454254</td>
-                                <td>21/01/2021</td>
-                                <td>30</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Dash</td>
-                                <td>dash@gmail.com</td>
-                                <td>+4445745254</td>
-                                <td>21/01/2021</td>
-                                <td>21</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Mack</td>
-                                <td>mck@gmail.com</td>
-                                <td>+4445714254</td>
-                                <td>21/01/2021</td>
-                                <td>21</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Zack</td>
-                                <td>zck@gmail.com</td>
-                                <td>+4447814254</td>
-                                <td>21/01/2021</td>
-                                <td>20</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -130,9 +98,9 @@
           $('#myTab a[href="#list"]').tab('show')
         })
 
-        var table = $('#transactions').DataTable()
-            /* ajax:{
-                url:'/api/pos/suppliers/',
+        var table = $('#users').DataTable({
+             ajax:{
+                url:'/api/user/list/?userType=U',
                 dataSrc:''
             },
             columns:[
@@ -146,21 +114,15 @@
                     data:'email',
                     "className":"align-middle"
                 },{
-                    data:'phoneNumber',
+                    data:'phone',
                     "className":"align-middle"
                 },{
-                    data:'id',
-                    render:function(data,type,row){
-                        return `<button type="button" data-id='${data}' data-obj='${JSON.stringify(row)}' class="btn rounded-circle btn-primary btn-sm edit">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" data-id='${data}' class="btn rounded-circle btn-danger btn-sm delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>`
-                    }
+                    data:'created_at',
+                },{
+                    data:'transactionCount',
                 }
             ]
-        }) */
+        }) 
 
         crudOperations({
               url:'/api/pos/suppliers/',

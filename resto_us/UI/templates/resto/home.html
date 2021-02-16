@@ -10,11 +10,11 @@
                 <div class="col-md-4">
                         <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
                             <div class="card-header">
-                                <h1 class="card-title float-right">50</h1>
-                                Resraunts
+                                <h1 class="card-title float-right">{{restrauntsCount}}</h1>
+                                Restraunts
                             </div>
                             <div class="card-footer text-content">
-                                <a href="#" class="btn btn-danger btn-block ">
+                                <a href="/Restraunts" class="btn btn-danger btn-block ">
                                     More Info <i class="fa fa-arrow-circle-right"></i> 
                                 </a>
                             </div>
@@ -23,11 +23,11 @@
                 <div class="col-md-4">
                         <div class="card text-light bg-danger mb-3" style="max-width: 18rem;">
                             <div class="card-header">
-                                <h1 class="card-title float-right">150</h1>
+                                <h1 class="card-title float-right">{{usersCount}}</h1>
                                 Users
                             </div>
                             <div class="card-footer text-content">
-                                <a href="#" class="btn btn-danger btn-block ">
+                                <a href="/Users" class="btn btn-danger btn-block ">
                                     More Info <i class="fa fa-arrow-circle-right"></i> 
                                 </a>
                             </div>
@@ -36,11 +36,11 @@
                 <div class="col-md-4">
                         <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
                             <div class="card-header"> 
-                                <h1 class="card-title float-right">1150</h1>
+                                <h1 class="card-title float-right">{{transCount}}</h1>
                                 Transactions
                             </div>
                             <div class="card-footer text-content">
-                                <a href="#" class="btn btn-danger btn-block ">
+                                <a href="/Transactions" class="btn btn-danger btn-block ">
                                     More Info <i class="fa fa-arrow-circle-right"></i> 
                                 </a>
                             </div>
@@ -64,38 +64,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Krstall Park Inn</td>
-                        <td>Mack</td>
-                        <td>Sunday Meals</td>
-                        <td>$150</td>
-                        <td>21/01/2021</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Subway</td>
-                        <td>Zack</td>
-                        <td>Wednesday Meals</td>
-                        <td>$350</td>
-                        <td>21/01/2021</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>KFC</td>
-                        <td>Sam</td>
-                        <td>Friday meals</td>
-                        <td>$250</td>
-                        <td>21/01/2021</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>McDonalds</td>
-                        <td>Dash</td>
-                        <td>Large Combo</td>
-                        <td>$750</td>
-                        <td>21/01/2021</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -105,7 +73,32 @@
 {% block scripts %}
 <script>
     $(document).ready(function(){
-        $('#transactions').DataTable()
+        $('#transactions').DataTable({
+            ajax:{
+                url:"/api/transactions/list/?recent=true",
+                dataSrc:""
+            },
+            columns:[
+                {
+                    data:"id"
+                },
+                {
+                    data:"restraunt_id.name"
+                },
+                {
+                    data:"users_id.name"
+                },
+                {
+                    data:"description"
+                },
+                {
+                    data:"trans_amt"
+                },
+                {
+                    data:"trans_date"
+                }
+            ]
+        })
     })
 </script>
 {% endblock %}

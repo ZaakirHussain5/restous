@@ -10,7 +10,7 @@ class transactionSerializer(serializers.ModelSerializer):
 
 class DealSubscriptionSerializer(serializers.ModelSerializer):
     users_id = resto_user_serailazer()
-    restraunt_id = restraunt_standardsSerializer()
+    subscription = restraunt_standardsSerializer()
     class Meta:
         model = UserDealSubscription
         fields = '__all__'
