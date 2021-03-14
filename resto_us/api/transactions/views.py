@@ -26,6 +26,7 @@ class transactionsListViewSet(viewsets.ModelViewSet):
         if recent is not None:
             queryset = transaction.objects.all().order_by('-trans_date')[:10]
         return queryset
+    
 
 class userDealAPI(generics.RetrieveAPIView):
     serializer_class = DealSubscriptionSerializer

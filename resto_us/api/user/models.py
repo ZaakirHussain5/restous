@@ -17,6 +17,7 @@ class resto_user(AbstractUser):
     restraunt_id = models.ForeignKey(restraunt,on_delete=models.CASCADE,null=True)
 
     session_token = models.CharField(max_length=10,default=0)
+    fcm_token = models.TextField(default="0")
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
